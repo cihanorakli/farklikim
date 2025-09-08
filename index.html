@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Farklı Kim?</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app">
+    <!-- START EKRANI -->
+    <section id="screen-start" class="screen active">
+      <div class="card start-card">
+        <h1 class="game-title">Farklı Kim?</h1>
+        <button id="btn-start" class="btn primary">START</button>
+        <p class="hint">3–6 kişiyle oynanır • Tek cihaz • Sırayla bakıp gizleyin</p>
+        <ul class="rules">
+          <li>Oyuncu sayısını seçin ve isimleri girin.</li>
+          <li>Her turda bir kişi farklı kelime, diğerleri benzer kelime alır.</li>
+          <li>Telefonu sırayla oyunculara verin; herkes kendi kelimesini görsün.</li>
+          <li>Herkes gördüğünde 3 dakikalık tartışma başlar; Farklı Kim? bulun.</li>
+        </ul>
+        <div class="rounds">
+          <div class="sub">Kaç tur oynayacaksınız?</div>
+          <div class="row rounds-row">
+            <button class="btn small round-opt" data-rounds="3">3</button>
+            <button class="btn small round-opt" data-rounds="5">5</button>
+            <button class="btn small round-opt" data-rounds="7">7</button>
+            <button class="btn small round-opt" data-rounds="10">10</button>
+            <button class="btn small round-opt" data-rounds="15">15</button>
+          </div>
+          <div id="rounds-selected" class="sub">Seçilen tur: 5</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OYUNCU SAYISI -->
+    <section id="screen-count" class="screen">
+      <div class="card">
+        <h2 class="text-center">Kaç kişisiniz?</h2>
+        <div class="grid">
+          <button class="btn count" data-n="3">3</button>
+          <button class="btn count" data-n="4">4</button>
+          <button class="btn count" data-n="5">5</button>
+          <button class="btn count" data-n="6">6</button>
+        </div>
+        <button id="back-to-start" class="btn ghost">← Geri</button>
+      </div>
+    </section>
+
+    <!-- İSİM TOPLAMA -->
+    <section id="screen-names" class="screen">
+      <form id="names-form" class="card">
+        <h2 class="text-center">İsimleri girin</h2>
+        <div id="names-list"></div>
+        <div class="row">
+          <button type="button" id="btn-random-names" class="btn ghost small">Rastgele doldur</button>
+          <div class="spacer"></div>
+          <button type="submit" class="btn primary">Oyunu Başlat</button>
+        </div>
+        <button id="back-to-count" type="button" class="btn ghost">← Geri</button>
+      </form>
+    </section>
+
+    <!-- KELİME GÖSTERME / SIRAYLA -->
+    <section id="screen-reveal" class="screen">
+      <div class="card">
+        <h2 id="reveal-title">Sıra: -</h2>
+        <p class="sub">Sadece bu oyuncu baksın. Sonra gizleyin.</p>
+
+        <div id="reveal-area" class="reveal-area">
+          <button id="btn-show" class="btn primary large">Kelimeyi Göster</button>
+          <div id="word-box" class="word-box hidden">
+            <div class="word" id="word-text">—</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <button id="btn-hide-next" class="btn" disabled>Gizle ve Sonraki →</button>
+        </div>
+
+        <div class="footer-actions">
+          <button id="btn-restart-round" class="btn ghost small">Yeni Tur (İsimler kalsın)</button>
+          <button id="btn-reset" class="btn ghost small">Başa Dön</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TUR BİTTİ -->
+    <section id="screen-end" class="screen">
+      <div class="card">
+        <h2 class="text-center">Herkes kelimesini gördü!</h2>
+        <div id="countdown" class="countdown">03:00</div>
+        <div id="countdown-status" class="status sub"></div>
+        <div class="row">
+          <button id="btn-skip-vote" class="btn ghost">Oylamaya Geç</button>
+        </div>
+        <div class="row">
+          <button id="btn-new-round" class="btn primary">Yeni Tur</button>
+          <button id="btn-full-reset" class="btn ghost">Başa Dön</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- OYLAMA EKRANI -->
+    <section id="screen-vote" class="screen">
+      <div class="card">
+        <h2 class="text-center">Oylama</h2>
+        <p id="vote-turn" class="sub text-center">Sıra: - — Oy kullanabilirsiniz</p>
+        <p class="sub text-center">Casus olduğunu düşündüğünüz kişiyi seçin.</p>
+        <div id="vote-list" class="vote-list"></div>
+        <div id="vote-result" class="vote-result hidden"></div>
+        <div class="row">
+          <button id="btn-vote-new-round" class="btn primary">Yeni Tur</button>
+          <button id="btn-vote-reset" class="btn ghost">Başa Dön</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TUR ÖZETİ -->
+    <section id="screen-round-summary" class="screen">
+      <div class="card">
+        <h2 id="round-summary-title" class="text-center">Tur 1 / 5</h2>
+        <div id="round-summary-details" class="sub text-center"></div>
+        <div id="round-scoreboard" class="scoreboard"></div>
+        <div class="row">
+          <button id="btn-next-round" class="btn primary">Sonraki Tur</button>
+          <button id="btn-summary-reset" class="btn ghost">Başa Dön</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FİNAL SONUÇLAR -->
+    <section id="screen-final" class="screen">
+      <div class="card">
+        <h2 class="text-center">Final Sonuçlar</h2>
+        <div id="final-winner" class="sub text-center"></div>
+        <div id="final-scoreboard" class="scoreboard"></div>
+        <div class="row">
+          <button id="btn-final-new" class="btn primary">Aynı Oyuncularla Yeniden</button>
+          <button id="btn-final-reset" class="btn ghost">Başa Dön</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
